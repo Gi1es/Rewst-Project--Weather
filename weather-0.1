@@ -1,0 +1,17 @@
+function Get-Weather {
+    param (
+        [string]$city,
+        [string]$apikey
+        
+    )
+    $url = "http://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&units=imperial"
+
+    try {
+        $response = Invoke-RestMethod -Uri $url -Method Get
+        $weatherDescription = $response.weather[0].description
+        $temp = $response.main.temp
+        Write-Output "$weatherDescription, $temp"
+    } catch {
+        Write-Output "Failed to retrieve weather information."
+    }
+}
